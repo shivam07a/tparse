@@ -16,7 +16,10 @@ func ExampleDict_Parse() {
   [Larry Wall]
   Found = Perl`
 	var dict *tparse.Dict = tparse.NewDict()
-	dict.Parse(tomlStr)
+	err := dict.Parse(tomlStr)
+	if err != nil {
+		fmt.Println(err)
+	}
 	// Output:
 	//
 }
@@ -31,7 +34,10 @@ func ExampleDict_Find() {
   [Larry Wall]
   Found = Perl`
 	var dict *tparse.Dict = tparse.NewDict()
-	dict.Parse(tomlStr)
+	err := dict.Parse(tomlStr)
+	if err != nil {
+		fmt.Println(err)
+	}
 	e, err := dict.Find("Linus Torvalds")
 	if err != nil {
 		fmt.Println(err)
@@ -52,7 +58,10 @@ func ExampleEntries_Find() {
   [Larry Wall]
   Found = Perl`
 	var dict *tparse.Dict = tparse.NewDict()
-	dict.Parse(tomlStr)
+	err := dict.Parse(tomlStr)
+	if err != nil {
+		fmt.Println(err)
+	}
 	e, err := dict.Find("Linus Torvalds")
 	if err != nil {
 		fmt.Println(err)

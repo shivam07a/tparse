@@ -3,6 +3,7 @@ package tparse
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -39,12 +40,13 @@ func (d Dict) Find(heading string) (Entries, error) {
 }
 
 // Parse is used to parse the content and store it in the Dict variable.
-func (d Dict) Parse(contents string) {
+func (d Dict) Parse(contents string) error {
 	lines := strings.Split(contents, "\n")
 	head := regexp.MustCompile("^\\s*\\[.*\\]\\s*$")
 	kval := regexp.MustCompile("^[^\\[].*=.*")
+	empty := regexp.MustCompile("^\\s*$")
 	currentHeader := "root"
-	for _, val := range lines {
+	for i, val := range lines {
 		switch true {
 		case kval.MatchString(val):
 			key, value := getKeyValPair(val)
@@ -52,8 +54,13 @@ func (d Dict) Parse(contents string) {
 		case head.MatchString(val):
 			currentHeader = getHeader(val)
 			d[currentHeader] = make(map[string]string, 0)
+		case empty.MatchString(val):
+			continue
+		default:
+			return errors.New(fmt.Sprintf("Illegal Character in line %d", i))
 		}
 	}
+	return nil
 }
 
 // getHeader is used to get the heading from the toml section header.
@@ -73,6 +80,9 @@ func getHeader(h string) string {
 // getKeyValPair is used to get key and value from the passed toml expression
 func getKeyValPair(kv string) (string, string) {
 	arr := strings.Split(kv, "=")
+	if len(arr) == 1 {
+		return "", ""
+	}
 	key := arr[0]
 	value := ""
 	for j, val := range arr {
