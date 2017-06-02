@@ -80,6 +80,9 @@ func getHeader(h string) string {
 // getKeyValPair is used to get key and value from the passed toml expression
 func getKeyValPair(kv string) (string, string) {
 	arr := strings.Split(kv, "=")
+	if len(arr) == 1 {
+		return "", ""
+	}
 	key := arr[0]
 	value := ""
 	for j, val := range arr {
