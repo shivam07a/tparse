@@ -7,10 +7,10 @@ import (
 	"strings"
 )
 
-// Type for containing the key value pairs
+// Entries Type is used for containing the key value pairs
 type Entries map[string]string
 
-// Type for containing the whole toml like data
+// Dict Type is used for containing the whole toml like data
 type Dict map[string]Entries
 
 // Find returns value for the given string from the entries data structure.
@@ -23,7 +23,7 @@ func (e Entries) Find(key string) (string, error) {
 	return ret, nil
 }
 
-// Dict returns the pointer to a Dict instance after initializing it.
+// NewDict returns the pointer to a Dict instance after initializing it.
 func NewDict() *Dict {
 	a := make(Dict, 0)
 	return &a
