@@ -1,7 +1,7 @@
 # tparse
 tparse is a golang library for parsing simple toml like syntax
 
-For Documentation visit : (Link)[https://godoc.org/github.com/shivam07a/tparse]
+For Documentation visit : [Link](https://godoc.org/github.com/shivam07a/tparse)
 
 ## Sample Usage
 ```go
