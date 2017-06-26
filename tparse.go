@@ -4,6 +4,7 @@ package tparse
 import (
 	"errors"
 	"fmt"
+	"io"
 	"regexp"
 	"strings"
 )
@@ -37,6 +38,27 @@ func (d Dict) Find(heading string) (Entries, error) {
 		return nil, errors.New("No such section found")
 	}
 	return ret, nil
+}
+
+// UnMarshal writes the data as a toml structured text in a io.Writer
+func (d Dict) UnMarshal(w io.Writer) error {
+	for section, entries := range d {
+		_, err := fmt.Fprintf(w, "[%s]\n", key)
+		if err != nil {
+			return err
+		}
+		for key, val := range entries {
+			_, err := fmt.Fprintf(w, "%s = %s\n", key, val)
+			if err != nil {
+				return err
+			}
+		}
+		_, err := fmt.Fprint(w, "\n")
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // Parse is used to parse the content and store it in the Dict variable.

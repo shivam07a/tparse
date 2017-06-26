@@ -2,9 +2,41 @@ package tparse_test
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/shivam07a/tparse"
 )
+
+func ExampleDict_UnMarshal() {
+	tomlStr := `[Linus Torvalds]
+  Found = Linux, git
+
+  [Guido Van Rossum]
+  Found = Python, Gerrit
+
+  [Larry Wall]
+  Found = Perl`
+	var dict *tparse.Dict = tparse.NewDict()
+	err := dict.Parse(tomlStr)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := d.UnMarshal(os.Stdout); err != nil {
+		fmt.Println(err)
+		return
+	}
+	// Output:
+	// [Linus Torvalds]
+	// Found = Linux, git
+	//
+	// [Guido Van Rossum]
+	// Found = Python, Gerrit
+	//
+	// [Larry Wall]
+	// Found = Perl
+	//
+}
 
 func ExampleDict_Parse() {
 	tomlStr := `[Linus Torvalds]
